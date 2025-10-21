@@ -132,50 +132,15 @@ extra_css:
 nav:
   - Home: index.md
   - Getting Started:
-      - Installation: getting-started/installation.md
-      - Quick Start: getting-started/quickstart.md
-      - AWS Setup: getting-started/aws-setup.md
-      - First Job: getting-started/first-job.md
-  - User Guides:
-      - Submitting Jobs: user-guides/submitting-jobs.md
-      - Job Monitoring: user-guides/monitoring.md
-      - Applications:
-          - GEOS-Chem: user-guides/applications/geos-chem.md
-          - Gaussian: user-guides/applications/gaussian.md
-          - WRF: user-guides/applications/wrf.md
-      - Multi-Architecture Support: user-guides/architectures.md
-      - Cost Management: user-guides/cost-management.md
-      - License Management: user-guides/licenses.md
-      - Troubleshooting: user-guides/troubleshooting.md
+      - Overview: platform/getting-started.md
   - Platform:
-      - Architecture: platform/architecture.md
-      - Adding Applications: platform/adding-applications.md
-      - Container System: platform/containers.md
-      - Base Images: platform/base-images.md
-      - Versioning Strategy: platform/versioning.md
-      - API Reference: platform/api-reference.md
-  - Infrastructure:
-      - Deployment Guide: infrastructure/deployment.md
-      - AWS Services: infrastructure/aws-services.md
-      - Networking: infrastructure/networking.md
-      - Security: infrastructure/security.md
-      - Cost Optimization: infrastructure/cost-optimization.md
-      - Lab Setup: infrastructure/lab-setup.md
+      - Research Computing Applications: platform/research-computing-applications.md
   - Development:
-      - Contributing: development/contributing.md
-      - Development Setup: development/setup.md
-      - Testing: development/testing.md
-      - Release Process: development/releases.md
       - Personas: PERSONAS.md
-  - Examples:
-      - Atmospheric Modeling: examples/atmospheric-modeling.md
-      - Quantum Chemistry: examples/quantum-chemistry.md
-      - Array Jobs: examples/array-jobs.md
-      - MPI Workloads: examples/mpi-workloads.md
-      - GPU Training: examples/gpu-training.md
   - About:
       - Roadmap: https://github.com/scttfrdmn/aws-hpc/blob/main/ROADMAP.md
       - Changelog: https://github.com/scttfrdmn/aws-hpc/blob/main/CHANGELOG.md
+      - Contributing: https://github.com/scttfrdmn/aws-hpc/blob/main/CONTRIBUTING.md
       - License: https://github.com/scttfrdmn/aws-hpc/blob/main/LICENSE
 
 copyright: Copyright &copy; 2025 Scott Friedman

@@ -39,13 +39,13 @@ aws-hpc job status <job-id>
 
 | Application | Type | Status | Domain |
 |------------|------|--------|--------|
-| [GEOS-Chem](user-guides/applications/geos-chem.md) | Classic & GCHP | ✅ Active Development | Atmospheric Chemistry |
-| [Gaussian](user-guides/applications/gaussian.md) | Single-node | 🚧 Planned | Quantum Chemistry |
-| [WRF](user-guides/applications/wrf.md) | MPI | 🚧 Planned | Weather Modeling |
+| GEOS-Chem | Classic & GCHP | ✅ Active Development | Atmospheric Chemistry |
+| Gaussian | Single-node | 🚧 Planned | Quantum Chemistry |
+| WRF | MPI | 🚧 Planned | Weather Modeling |
 | VASP | MPI | 📋 Roadmap | Materials Science |
 | ORCA | Single-node | 📋 Roadmap | Computational Chemistry |
 
-Want to add your application? See [Adding Applications](platform/adding-applications.md).
+Want to add your application? See [Platform Documentation](platform/research-computing-applications.md).
 
 ## Architecture at a Glance
 
@@ -132,10 +132,9 @@ See the [Roadmap](https://github.com/scttfrdmn/aws-hpc/blob/main/ROADMAP.md) for
 
 ## Next Steps
 
-- **New Users**: Start with [Installation](getting-started/installation.md)
-- **HPC Engineers**: Read [Architecture](platform/architecture.md) and [Deployment Guide](infrastructure/deployment.md)
-- **Application Developers**: See [Adding Applications](platform/adding-applications.md)
-- **Contributors**: Check out [Contributing](development/contributing.md)
+- **New Users**: Start with [Getting Started](platform/getting-started.md)
+- **HPC Engineers**: Read about [Research Computing Applications](platform/research-computing-applications.md)
+- **Contributors**: Check out [User Personas](PERSONAS.md) and [Contributing Guide](https://github.com/scttfrdmn/aws-hpc/blob/main/CONTRIBUTING.md)
 
 ---
 
