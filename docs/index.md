@@ -1,10 +1,18 @@
-# AWS HPC Platform
+# ATOM ⚛️
 
-Welcome to the AWS HPC Platform documentation! This platform provides a flexible, application-agnostic infrastructure for deploying high-performance computing applications on AWS with architecture-optimized containers and cost-efficient job scheduling.
+**Automated Toolkit for Optimized Modeling**
+
+*Cloud-native HPC made simple*
+
+Welcome to ATOM documentation! ATOM provides a flexible, application-agnostic infrastructure for deploying high-performance computing applications with architecture-optimized containers and cost-efficient job scheduling. Built cloud-native from the ground up for modern research computing.
+
+> *The fundamental unit of cloud computing*
 
 ## Overview
 
-AWS HPC Platform is designed to make running computational workloads on AWS simple, cost-effective, and performant. Whether you're running atmospheric simulations, quantum chemistry calculations, or machine learning training, the platform handles the infrastructure complexity so you can focus on your science.
+ATOM is designed to make running computational workloads simple, cost-effective, and performant. Whether you're running atmospheric simulations, quantum chemistry calculations, or machine learning training, ATOM handles the infrastructure complexity so you can focus on your science.
+
+**Cloud-Native Design**: ATOM leverages cloud-native patterns including containerization, serverless orchestration, and elastic scaling to provide HPC capabilities without traditional cluster management overhead.
 
 ### Key Features
 
@@ -20,19 +28,19 @@ AWS HPC Platform is designed to make running computational workloads on AWS simp
 
 ```bash
 # Install CLI
-brew install aws-hpc  # or download from releases
+brew install atom  # or download from releases
 
 # Deploy an application
-aws-hpc app deploy geos-chem --env benchmark
+atom app deploy geos-chem --env benchmark
 
 # Submit a job
-aws-hpc job submit geos-chem \
+atom job submit geos-chem \
   --config benchmark.yaml \
   --architecture c7a \
   --output s3://my-bucket/results/
 
 # Monitor job
-aws-hpc job status <job-id>
+atom job status <job-id>
 ```
 
 ## Supported Applications

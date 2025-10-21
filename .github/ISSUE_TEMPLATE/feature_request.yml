@@ -1,5 +1,5 @@
 name: ✨ Feature Request
-description: Suggest a new feature or enhancement for AWS HPC Platform
+description: Suggest a new feature or enhancement for ATOM
 title: "[Feature]: "
 labels: ["enhancement", "triage"]
 body:

@@ -1,9 +1,9 @@
-site_name: AWS HPC Platform Documentation
-site_url: https://scttfrdmn.github.io/aws-hpc
-site_description: Cloud-native platform for running HPC and scientific computing workloads on AWS
+site_name: ATOM Documentation
+site_url: https://atomhpc.io
+site_description: Cloud-native HPC made simple - Automated Toolkit for Optimized Modeling
 site_author: Scott Friedman
-repo_url: https://github.com/scttfrdmn/aws-hpc
-repo_name: scttfrdmn/aws-hpc
+repo_url: https://github.com/scttfrdmn/atom
+repo_name: scttfrdmn/atom
 edit_uri: edit/main/docs/
 
 theme:

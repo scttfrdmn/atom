@@ -1,10 +1,16 @@
-# AWS HPC Platform
+# ATOM ⚛️
 
-A flexible, application-agnostic platform for deploying high-performance computing applications on AWS with architecture-optimized containers and cost-efficient job scheduling.
+**Automated Toolkit for Optimized Modeling**
+
+*Cloud-native HPC made simple*
+
+A flexible, application-agnostic platform for deploying high-performance computing applications with architecture-optimized containers and cost-efficient job scheduling. Built cloud-native from the ground up for modern research computing.
+
+> *The fundamental unit of cloud computing*
 
 ## Overview
 
-AWS HPC Platform provides a reusable infrastructure for running computational applications (GEOS-Chem, Gaussian, WRF, VASP, etc.) on AWS with:
+ATOM provides a reusable infrastructure for running computational applications (GEOS-Chem, Gaussian, WRF, VASP, etc.) on AWS with:
 
 - **Architecture-optimized containers** - Automatic builds for AMD (Zen 2/3/4), Intel (Cascade/Ice/Sapphire), ARM (Graviton 2/3/4)
 - **Containerization strategy** - Layered base images (compilers/libraries) + application layers
@@ -30,7 +36,7 @@ Applications - Pluggable application definitions
 **Current Version**: v0.1.0-alpha
 **Platform API**: v1.0.0-dev
 
-🚧 **In Active Development** - Platform extraction from [aws-geos-chem](https://github.com/yourusername/aws-geos-chem) in progress.
+🚧 **In Active Development** - Platform extraction from [aws-geos-chem](https://github.com/scttfrdmn/aws-geos-chem) in progress.
 
 ### Implemented
 - [ ] Core platform abstractions
@@ -42,7 +48,7 @@ Applications - Pluggable application definitions
 ### Planned
 - [ ] Gaussian application plugin
 - [ ] WRF application plugin
-- [ ] CLI tool (`aws-hpc`)
+- [ ] CLI tool (`atom`)
 - [ ] Web dashboard
 - [ ] Cost tracking system
 
@@ -52,19 +58,19 @@ Applications - Pluggable application definitions
 
 ```bash
 # Install CLI
-brew install aws-hpc  # or download from releases
+brew install atom  # or download from releases
 
 # Deploy an application
-aws-hpc app deploy geos-chem --env benchmark
+atom app deploy geos-chem --env benchmark
 
 # Submit a job
-aws-hpc job submit geos-chem \
+atom job submit geos-chem \
   --architecture c7a \
   --input s3://my-bucket/input/ \
   --output s3://my-bucket/output/
 
 # Monitor job
-aws-hpc job status <job-id>
+atom job status <job-id>
 ```
 
 ## Container Strategy
@@ -123,16 +129,19 @@ Application Layers (versioned independently):
 
 ## Documentation
 
-- [Platform Architecture](docs/platform/architecture.md)
-- [Adding Applications](docs/platform/adding-applications.md)
-- [Container Build System](docs/platform/containers.md)
-- [Versioning Strategy](docs/platform/versioning.md)
-- [Application: GEOS-Chem](docs/applications/geos-chem.md)
+- [Platform Architecture](https://atomhpc.io/platform/architecture)
+- [Adding Applications](https://atomhpc.io/platform/adding-applications)
+- [Container Build System](https://atomhpc.io/platform/containers)
+- [Versioning Strategy](https://atomhpc.io/platform/versioning)
+- [Application: GEOS-Chem](https://atomhpc.io/applications/geos-chem)
 
 ## Related Projects
 
-- **[aws-geos-chem](https://github.com/yourusername/aws-geos-chem)** - Original GEOS-Chem deployment (reference implementation)
-- **[aws-ide](https://github.com/yourusername/aws-ide)** - IDE platform that inspired this architecture
+- **[petri](https://github.com/scttfrdmn/petri)** - Research-focused AWS account management
+- **[cloudworkstation](https://github.com/scttfrdmn/cloudworkstation)** - Pre-configured cloud workstations
+- **[lens](https://github.com/scttfrdmn/aws-ide)** - Development environments (Jupyter, RStudio, VSCode)
+- **[cargoship](https://github.com/scttfrdmn/cargoship)** - Enterprise data archiving for AWS
+- **[orca](https://github.com/scttfrdmn/orca)** - Orchestration for Research Cloud Access
 
 ## Contributing
 
@@ -140,10 +149,12 @@ Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-MIT License - See [LICENSE](LICENSE)
+Apache License 2.0 - See [LICENSE](LICENSE)
 
 ---
 
 **Status**: 🏗️ Platform under active development
 **First Application**: GEOS-Chem (extracting from aws-geos-chem project)
 **Target Release**: Q1 2026
+**Website**: [atomhpc.io](https://atomhpc.io)
+**Documentation**: [docs.atomhpc.io](https://docs.atomhpc.io)

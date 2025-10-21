@@ -1,5 +1,5 @@
 name: 🐛 Bug Report
-description: Report a bug or unexpected behavior in AWS HPC Platform
+description: Report a bug or unexpected behavior in ATOM
 title: "[Bug]: "
 labels: ["bug", "triage"]
 body:
