@@ -138,10 +138,10 @@ Application Layers (versioned independently):
 ## Related Projects
 
 - **[petri](https://github.com/scttfrdmn/petri)** - Research-focused AWS account management
-- **[cloudworkstation](https://github.com/scttfrdmn/cloudworkstation)** - Pre-configured cloud workstations
-- **[lens](https://github.com/scttfrdmn/aws-ide)** - Development environments (Jupyter, RStudio, VSCode)
+- **[cloudworkspaces](https://cloudworkspaces.io)** - Pre-configured cloud workstations
+- **[lens](https://lenslab.io)** - Development environments (Jupyter, RStudio, VSCode)
 - **[cargoship](https://github.com/scttfrdmn/cargoship)** - Enterprise data archiving for AWS
-- **[orca](https://github.com/scttfrdmn/orca)** - Orchestration for Research Cloud Access
+- **[orca](https://orcapod.io)** - Orchestration for Research Cloud Access
 
 ## Contributing
 

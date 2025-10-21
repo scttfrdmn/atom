@@ -65,7 +65,7 @@ ATOM now joins a cohesive family of research computing tools:
 │     Account & Budget Management                             │
 │     └─> Creates AWS accounts for research                   │
 │                                                              │
-│  🖥️  cloudworkstation                                        │
+│  🖥️  cloudworkspaces.io                                     │
 │     Interactive Research Workstations                       │
 │     └─> Pre-configured ML, R, Python environments           │
 │                                                              │
@@ -94,8 +94,8 @@ University → petri (request account) → Account created
                                              ↓
                          ┌───────────────────┼──────────────────┐
                          ↓                   ↓                  ↓
-                 cloudworkstation        lenslab           atomhpc
-                 (interactive)        (development)    (batch HPC)
+              cloudworkspaces            lenslab           atomhpc
+                (interactive)        (development)    (batch HPC)
                          ↓                   ↓                  ↓
                          └───────────────────┴────────> cargoship
                                        (archive results)
