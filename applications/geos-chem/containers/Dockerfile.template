@@ -1,0 +1,77 @@
+# GEOS-Chem Classic - Application Layer
+# Uses HPC base image with pre-installed libraries
+# Variant: {{VARIANT}}
+# Architecture: {{ARCHITECTURE}}
+
+ARG BASE_IMAGE={{BASE_IMAGE}}
+FROM ${BASE_IMAGE}
+
+# Application metadata
+LABEL org.hpc.app.name="geos-chem"
+LABEL org.hpc.app.variant="{{VARIANT}}"
+LABEL org.hpc.app.version="{{VERSION}}"
+LABEL org.hpc.app.architecture="{{ARCHITECTURE}}"
+
+# Build arguments
+ARG GEOS_CHEM_VERSION={{VERSION}}
+
+# Application-specific environment
+ENV GEOS_CHEM_ROOT=/opt/geos-chem \
+    GEOS_CHEM_DATA=/data/input \
+    GEOS_CHEM_OUTPUT=/data/output
+
+# Create directory structure
+RUN mkdir -p ${GEOS_CHEM_ROOT}/{bin,lib,include,config} && \
+    mkdir -p ${GEOS_CHEM_DATA} && \
+    mkdir -p ${GEOS_CHEM_OUTPUT} && \
+    mkdir -p /opt/run-dir && \
+    mkdir -p /tmp/build
+
+# Download and build GEOS-Chem Classic
+WORKDIR /tmp/build
+RUN git clone --depth 1 --branch ${GEOS_CHEM_VERSION} \
+        https://github.com/geoschem/GCClassic.git && \
+    cd GCClassic && \
+    git submodule update --init --recursive
+
+# Build GEOS-Chem Classic with architecture-specific optimizations
+WORKDIR /tmp/build/GCClassic
+RUN . /etc/profile.d/hpc-base.sh && \
+    mkdir -p build && cd build && \
+    cmake \
+        -DCMAKE_INSTALL_PREFIX=${GEOS_CHEM_ROOT} \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_C_FLAGS="${CFLAGS}" \
+        -DCMAKE_Fortran_FLAGS="${FCFLAGS}" \
+        -DRUNDIR=OFF \
+        -DOPENMP=ON \
+        {{BLAS_LAPACK_FLAGS}} \
+        .. && \
+    make -j$(nproc) VERBOSE=1 && \
+    make install
+
+# Copy application scripts
+WORKDIR /app
+COPY scripts/entrypoint.sh /app/entrypoint.sh
+COPY scripts/config-generator.py /app/config-generator.py
+COPY scripts/s3-sync.sh /app/s3-sync.sh
+RUN chmod +x /app/*.sh
+
+# Clean up build artifacts
+RUN rm -rf /tmp/build
+
+# Set working directory
+WORKDIR /opt/run-dir
+
+# Expose volume mount points
+VOLUME ["${GEOS_CHEM_DATA}", "${GEOS_CHEM_OUTPUT}"]
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD test -f ${GEOS_CHEM_ROOT}/bin/gcclassic || exit 1
+
+# Set entrypoint
+ENTRYPOINT ["/bin/bash", "-c", "source /etc/profile.d/hpc-base.sh && /app/entrypoint.sh \"$@\"", "--"]
+
+# Default command
+CMD ["--help"]

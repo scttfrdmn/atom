@@ -1,0 +1,214 @@
+name: 🐛 Bug Report
+description: Report a bug or unexpected behavior in AWS HPC Platform
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this bug! Please fill out the form below to help us understand and fix the issue.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which area is affected?
+      description: Select the component where you encountered the bug
+      options:
+        - Platform core (pkg/)
+        - Application (specify below)
+        - Base images
+        - Infrastructure deployment
+        - CLI (aws-hpc)
+        - Web dashboard
+        - Container builds
+        - Job management
+        - Cost tracking
+        - License management
+        - Multiple areas
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: application
+    attributes:
+      label: Application (if applicable)
+      description: "Which application? (e.g., geos-chem, gaussian, wrf)"
+      placeholder: "geos-chem"
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which functionality is affected?
+      options:
+        - Job Submission
+        - Job Monitoring
+        - Container Build
+        - Application Deploy
+        - Base Image Build
+        - Infrastructure Deploy
+        - Configuration Management
+        - Cost Calculation
+        - License Checkout
+        - AWS Batch Integration
+        - AWS ParallelCluster
+        - S3 Data Transfer
+        - Error Messages
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: "Run \`aws-hpc --version\` and paste the output"
+      placeholder: "v0.1.0 (platform: v1.0.0-dev, commit: abc1234, date: 2025-10-19)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      description: What OS are you running AWS HPC on?
+      options:
+        - macOS (Apple Silicon/M-series)
+        - macOS (Intel)
+        - Linux (Ubuntu/Debian)
+        - Linux (RHEL/CentOS/Fedora)
+        - Linux (Amazon Linux)
+        - Linux (Other)
+        - Windows (WSL)
+        - Windows (Native)
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: os_version
+    attributes:
+      label: OS Version
+      description: "Specific OS version (e.g., macOS 14.2, Ubuntu 24.04, Windows 11)"
+      placeholder: "macOS 14.2"
+
+  - type: dropdown
+    id: region
+    attributes:
+      label: AWS Region
+      description: Which AWS region are you using?
+      options:
+        - us-east-1 (N. Virginia)
+        - us-east-2 (Ohio)
+        - us-west-1 (N. California)
+        - us-west-2 (Oregon)
+        - eu-west-1 (Ireland)
+        - eu-central-1 (Frankfurt)
+        - ap-southeast-1 (Singapore)
+        - ap-northeast-1 (Tokyo)
+        - ap-southeast-2 (Sydney)
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: architecture
+    attributes:
+      label: Processor Architecture (if relevant)
+      description: Which architecture were you using?
+      options:
+        - Not architecture-specific
+        - ARM Graviton (c7g, c8g)
+        - AMD EPYC (c6a, c7a, c8a)
+        - Intel (c6i, c7i, c8i)
+        - GPU instances
+        - Multiple architectures
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: Clear and concise description of what the bug is
+      placeholder: When I try to submit a GEOS-Chem job to AWS Batch, it fails during container initialization...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the behavior
+      placeholder: |
+        1. Run \`aws-hpc job submit geos-chem --config benchmark.yaml\`
+        2. Job is submitted to queue
+        3. Container starts pulling
+        4. Error occurs at...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: The job should run successfully and produce output in S3
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: The job failed with exit code 1 and no output was produced
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Logs
+      description: |
+        Include any error messages or relevant output
+        **Important:** Redact any sensitive information (account IDs, IP addresses, credentials, secrets, license keys)
+      placeholder: |
+        \`\`\`
+        Error: Container failed to start
+        Exit code: 1
+        Last log: Failed to download input data from S3
+        \`\`\`
+      render: shell
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Configuration
+      description: |
+        Any relevant configuration settings (sanitized for security)
+        **Important:** Remove account IDs, credentials, license keys, and other sensitive data
+      placeholder: |
+        Instance type: c7a.4xlarge
+        Application: geos-chem v14.4.3
+        Architecture: AMD EPYC (c7a)
+        Compute environment: spot
+        Input data: s3://my-bucket/input/ (redacted)
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any other context, screenshots, or information about the problem
+      placeholder: |
+        This started happening after updating to v0.1.1
+        Same configuration worked yesterday
+        Cost impact: $X per failed job
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched existing issues to ensure this bug hasn't been reported before
+          required: true
+        - label: I have redacted sensitive information (account IDs, credentials, IP addresses, license keys)
+          required: true
+        - label: I have included the version information
+          required: true

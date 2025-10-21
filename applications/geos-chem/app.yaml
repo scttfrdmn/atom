@@ -1,0 +1,242 @@
+# GEOS-Chem Application Specification
+# Version: 0.1.0-alpha
+# Platform: v1.0.0-dev
+
+name: "geos-chem"
+display_name: "GEOS-Chem"
+version: "0.1.0-alpha"
+platform_version: ">=1.0.0-dev"
+
+metadata:
+  description: "Global 3-D atmospheric chemistry transport model"
+  homepage: "http://geos-chem.org"
+  documentation: "https://geos-chem.readthedocs.io"
+  repository: "https://github.com/geoschem/GCClassic"
+  license: "MIT"
+  maintainers:
+    - name: "Scott Freedman"
+      email: "scott@example.com"
+  tags:
+    - atmospheric-chemistry
+    - climate
+    - transport-model
+    - scientific-computing
+
+# Application variants
+variants:
+  - name: "classic"
+    display_name: "GEOS-Chem Classic"
+    description: "Single-node OpenMP version"
+    type: "single-node"
+    parallelism: "openmp"
+    upstream_version: "14.4.3"
+
+  - name: "gchp"
+    display_name: "GEOS-Chem High Performance (GCHP)"
+    description: "Multi-node MPI version with cubed-sphere grid"
+    type: "multi-node"
+    parallelism: "mpi"
+    upstream_version: "14.4.3"
+
+# Compute architecture support
+compute:
+  architectures:
+    # AMD processors
+    - name: "c7a"
+      family: "amd"
+      generation: "zen4"
+      instance_types: ["c7a.xlarge", "c7a.2xlarge", "c7a.4xlarge", "c7a.8xlarge"]
+      compiler_flags:
+        - "-march=znver4"
+        - "-mavx512f"
+        - "-O3"
+        - "-fopenmp"
+        - "-ffast-math"
+        - "-funroll-loops"
+      math_library:
+        name: "amd-aocl"
+        version: "4.2"
+        blas: "amdblis@4.2"
+        lapack: "amdlibflame@4.2"
+      base_image: "hpc-base-amd-zen4:latest"
+
+    - name: "c6a"
+      family: "amd"
+      generation: "zen3"
+      instance_types: ["c6a.xlarge", "c6a.2xlarge", "c6a.4xlarge"]
+      compiler_flags: ["-march=znver3", "-mavx2", "-mfma", "-O3", "-fopenmp"]
+      math_library:
+        name: "amd-aocl"
+        version: "4.2"
+      base_image: "hpc-base-amd-zen3:latest"
+
+    - name: "c5a"
+      family: "amd"
+      generation: "zen2"
+      instance_types: ["c5a.xlarge", "c5a.2xlarge"]
+      compiler_flags: ["-march=znver2", "-mavx2", "-mfma", "-O3", "-fopenmp"]
+      math_library:
+        name: "amd-aocl"
+        version: "4.2"
+      base_image: "hpc-base-amd-zen2:latest"
+
+    # Intel processors
+    - name: "c7i"
+      family: "intel"
+      generation: "sapphire-rapids"
+      instance_types: ["c7i.xlarge", "c7i.2xlarge", "c7i.4xlarge", "c7i.8xlarge"]
+      compiler_flags: ["-march=sapphirerapids", "-mavx512f", "-O3", "-fopenmp"]
+      math_library:
+        name: "intel-mkl"
+        version: "2024.2.0"
+      base_image: "hpc-base-intel-spr:latest"
+
+    - name: "c6i"
+      family: "intel"
+      generation: "ice-lake"
+      instance_types: ["c6i.xlarge", "c6i.2xlarge"]
+      compiler_flags: ["-march=icelake-server", "-mavx512f", "-O3", "-fopenmp"]
+      math_library:
+        name: "intel-mkl"
+        version: "2024.2.0"
+      base_image: "hpc-base-intel-icl:latest"
+
+    - name: "c5"
+      family: "intel"
+      generation: "cascade-lake"
+      instance_types: ["c5.xlarge", "c5.2xlarge"]
+      compiler_flags: ["-march=cascadelake", "-mavx512f", "-O3", "-fopenmp"]
+      math_library:
+        name: "intel-mkl"
+        version: "2024.2.0"
+      base_image: "hpc-base-intel-clk:latest"
+
+    # ARM processors
+    - name: "graviton4"
+      family: "arm"
+      generation: "neoverse-v2"
+      instance_types: ["c8g.xlarge", "c8g.2xlarge", "c8g.4xlarge"]
+      compiler_flags: ["-mcpu=neoverse-v2", "-O3", "-fopenmp"]
+      math_library:
+        name: "arm-pl"
+        version: "24.04"
+      base_image: "hpc-base-arm-graviton4:latest"
+
+    - name: "graviton3"
+      family: "arm"
+      generation: "neoverse-v1"
+      instance_types: ["c7g.xlarge", "c7g.2xlarge"]
+      compiler_flags: ["-mcpu=neoverse-v1", "-O3", "-fopenmp"]
+      math_library:
+        name: "arm-pl"
+        version: "24.04"
+      base_image: "hpc-base-arm-graviton3:latest"
+
+    - name: "graviton2"
+      family: "arm"
+      generation: "neoverse-n1"
+      instance_types: ["c6g.xlarge", "c6g.2xlarge"]
+      compiler_flags: ["-mcpu=neoverse-n1", "-O3", "-fopenmp"]
+      math_library:
+        name: "arm-pl"
+        version: "24.04"
+      base_image: "hpc-base-arm-graviton2:latest"
+
+  # AWS Batch configuration
+  batch:
+    min_vcpus: 0
+    max_vcpus: 1000
+    spot_bid_percentage: 100
+    queues:
+      - name: "geos-chem-spot-graviton"
+        priority: 1
+        compute_environments:
+          - type: "spot"
+            architectures: ["graviton4", "graviton3"]
+            max_vcpus: 500
+      - name: "geos-chem-spot-x86"
+        priority: 2
+        compute_environments:
+          - type: "spot"
+            architectures: ["c7a", "c7i", "c6a", "c6i"]
+            max_vcpus: 500
+      - name: "geos-chem-ondemand"
+        priority: 3
+        compute_environments:
+          - type: "on-demand"
+            architectures: ["c7a"]
+            max_vcpus: 100
+
+# Container configuration
+containers:
+  registry: "ecr"
+  repository: "geos-chem"
+  build_system: "docker-buildx"
+
+  variants:
+    classic:
+      dockerfile: "containers/classic/Dockerfile"
+      context: "containers/classic/"
+      build_args:
+        GEOS_CHEM_VERSION: "14.4.3"
+
+    gchp:
+      dockerfile: "containers/gchp/Dockerfile"
+      context: "containers/gchp/"
+      build_args:
+        GCHP_VERSION: "14.4.3"
+
+  dependencies:
+    - hdf5@1.14.3
+    - netcdf-c@4.9.2
+    - netcdf-fortran@4.6.1
+    - openmpi@4.1.6
+    - esmf@8.6.0
+
+# Storage requirements
+storage:
+  input:
+    type: "s3"
+    bucket: "geos-chem-input-data"
+    prefix: "GEOS_4x5"
+
+  output:
+    type: "s3"
+    bucket: "geos-chem-results"
+    lifecycle:
+      transition_ia: 30  # days
+      transition_glacier: 90
+      expiration: 365
+
+  scratch:
+    type: "ebs"
+    size_gb: 100
+    type: "gp3"
+    iops: 3000
+
+# Environment definitions
+environments:
+  - name: "benchmark"
+    config: "environments/benchmark.yaml"
+    description: "7-day benchmark simulation for performance testing"
+
+  - name: "production"
+    config: "environments/production.yaml"
+    description: "Full-year production simulations"
+
+  - name: "transport"
+    config: "environments/transport.yaml"
+    description: "Transport-only simulations (no chemistry)"
+
+# Cost estimation (for scheduler optimization)
+cost:
+  estimate_method: "runtime_scaling"
+  baseline:
+    architecture: "c7a.2xlarge"
+    runtime_hours: 2.5
+    cost_per_hour: 0.3468
+  scaling_factors:
+    c6a: 0.95
+    c5a: 0.90
+    graviton4: 0.70
+    graviton3: 0.75

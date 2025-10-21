@@ -1,0 +1,362 @@
+# AWS HPC Label Configuration
+# Organized hierarchically: Type -> Priority -> Area -> Persona -> Use Case -> Status -> Resolution
+
+# ============================================================================
+# TYPE LABELS - What kind of issue/PR is this?
+# ============================================================================
+- name: bug
+  description: Something isn't working as expected
+  color: "d73a4a"
+
+- name: enhancement
+  description: New feature or capability request
+  color: "a2eeef"
+
+- name: documentation
+  description: Improvements or additions to documentation
+  color: "0075ca"
+
+- name: technical-debt
+  description: Code quality, refactoring, or architectural improvements
+  color: "fbca04"
+
+- name: question
+  description: Further information is requested
+  color: "d876e3"
+
+# ============================================================================
+# PRIORITY LABELS - How urgent is this?
+# ============================================================================
+- name: "priority: critical"
+  description: Urgent issue blocking important functionality or security
+  color: "b60205"
+
+- name: "priority: high"
+  description: Important issue affecting many users or key features
+  color: "d93f0b"
+
+- name: "priority: medium"
+  description: Normal priority issue
+  color: "fbca04"
+
+- name: "priority: low"
+  description: Low priority issue or nice-to-have
+  color: "0e8a16"
+
+# ============================================================================
+# AREA LABELS - Which part of the codebase?
+# ============================================================================
+- name: "area: platform"
+  description: Core platform code (pkg/)
+  color: "1d76db"
+
+- name: "area: applications"
+  description: Application plugins and definitions
+  color: "5319e7"
+
+- name: "area: base-images"
+  description: HPC base container images
+  color: "5319e7"
+
+- name: "area: infrastructure"
+  description: Infrastructure as Code (CDK/Terraform)
+  color: "ff9900"
+
+- name: "area: cli"
+  description: Command-line interface (aws-hpc)
+  color: "1d76db"
+
+- name: "area: web"
+  description: Web dashboard and UI
+  color: "1d76db"
+
+- name: "area: containers"
+  description: Container build system and Docker
+  color: "0052cc"
+
+- name: "area: job-management"
+  description: Job scheduling and monitoring
+  color: "1d76db"
+
+- name: "area: cost"
+  description: Cost tracking and optimization
+  color: "1d76db"
+
+- name: "area: license"
+  description: License management (FlexLM, RLM)
+  color: "1d76db"
+
+- name: "area: tests"
+  description: Testing infrastructure and test coverage
+  color: "0e8a16"
+
+- name: "area: build"
+  description: Build system, CI/CD, and release process
+  color: "0e8a16"
+
+- name: "area: docs"
+  description: Documentation and examples
+  color: "0075ca"
+
+# ============================================================================
+# APPLICATION LABELS - Specific applications
+# ============================================================================
+- name: "app: geos-chem"
+  description: GEOS-Chem application
+  color: "5319e7"
+
+- name: "app: gaussian"
+  description: Gaussian application
+  color: "5319e7"
+
+- name: "app: wrf"
+  description: WRF (Weather Research & Forecasting) application
+  color: "5319e7"
+
+- name: "app: vasp"
+  description: VASP application
+  color: "5319e7"
+
+- name: "app: template"
+  description: Application template and framework
+  color: "5319e7"
+
+# ============================================================================
+# PERSONA LABELS - Who is the user?
+# ============================================================================
+- name: "persona: computational-scientist"
+  description: Scientist running large-scale simulations
+  color: "c5def5"
+
+- name: "persona: research-lab"
+  description: Research lab or group (PI + team members)
+  color: "c5def5"
+
+- name: "persona: hpc-engineer"
+  description: HPC engineer or system architect
+  color: "c5def5"
+
+- name: "persona: graduate-student"
+  description: Graduate student or postdoc
+  color: "c5def5"
+
+- name: "persona: it-admin"
+  description: IT administrator or systems manager
+  color: "c5def5"
+
+- name: "persona: devops-engineer"
+  description: DevOps engineer managing cloud infrastructure
+  color: "c5def5"
+
+- name: "persona: data-scientist"
+  description: Data scientist running ML/AI workloads
+  color: "c5def5"
+
+# ============================================================================
+# USE CASE LABELS - What's the computational scenario?
+# ============================================================================
+- name: "use-case: atmospheric-modeling"
+  description: Weather, climate, and atmospheric chemistry
+  color: "bfd4f2"
+
+- name: "use-case: molecular-dynamics"
+  description: Molecular simulations and computational chemistry
+  color: "bfd4f2"
+
+- name: "use-case: quantum-chemistry"
+  description: Quantum mechanical calculations
+  color: "bfd4f2"
+
+- name: "use-case: machine-learning"
+  description: ML model training and AI workloads
+  color: "bfd4f2"
+
+- name: "use-case: genomics"
+  description: Bioinformatics and genomic analysis
+  color: "bfd4f2"
+
+- name: "use-case: cfd"
+  description: Computational fluid dynamics
+  color: "bfd4f2"
+
+- name: "use-case: materials-science"
+  description: Materials modeling and simulation
+  color: "bfd4f2"
+
+- name: "use-case: parallel-computing"
+  description: Multi-node MPI workloads
+  color: "bfd4f2"
+
+- name: "use-case: cost-optimization"
+  description: Cost management and budget tracking
+  color: "bfd4f2"
+
+- name: "use-case: benchmarking"
+  description: Performance testing and comparison
+  color: "bfd4f2"
+
+# ============================================================================
+# STATUS LABELS - What's the workflow state?
+# ============================================================================
+- name: triage
+  description: Needs initial review and categorization
+  color: "ededed"
+
+- name: needs-info
+  description: Waiting for more information from reporter
+  color: "d4c5f9"
+
+- name: blocked
+  description: Cannot proceed due to external dependency
+  color: "b60205"
+
+- name: ready
+  description: Ready to be worked on
+  color: "0e8a16"
+
+- name: in-progress
+  description: Currently being worked on
+  color: "fbca04"
+
+- name: in-review
+  description: Under review (PR or design)
+  color: "0052cc"
+
+- name: awaiting-merge
+  description: Approved and waiting to be merged
+  color: "0e8a16"
+
+# ============================================================================
+# RESOLUTION LABELS - How was this closed?
+# ============================================================================
+- name: duplicate
+  description: This issue or PR already exists
+  color: "cfd3d7"
+
+- name: wontfix
+  description: This will not be worked on
+  color: "ffffff"
+
+- name: invalid
+  description: This doesn't seem right or is not applicable
+  color: "e4e669"
+
+- name: works-as-designed
+  description: Current behavior is intentional
+  color: "ffffff"
+
+# ============================================================================
+# SPECIAL LABELS - Community and contributor support
+# ============================================================================
+- name: "good first issue"
+  description: Good for newcomers to the project
+  color: "7057ff"
+
+- name: "help wanted"
+  description: Extra attention is needed from community
+  color: "008672"
+
+- name: breaking-change
+  description: Introduces breaking changes to API or behavior
+  color: "b60205"
+
+- name: security
+  description: Security-related issue or vulnerability
+  color: "b60205"
+
+- name: performance
+  description: Performance optimization or improvement
+  color: "84b6eb"
+
+- name: dependencies
+  description: Pull requests that update a dependency file
+  color: "0366d6"
+
+# ============================================================================
+# PHASE LABELS - Roadmap alignment
+# ============================================================================
+- name: "phase: 0.1-foundation"
+  description: v0.1.x Core platform and GEOS-Chem extraction
+  color: "c2e0c6"
+
+- name: "phase: 0.2-multi-app"
+  description: v0.2.x Multiple application support
+  color: "c2e0c6"
+
+- name: "phase: 0.3-optimization"
+  description: v0.3.x Cost and performance optimization
+  color: "c2e0c6"
+
+- name: "phase: 0.4-enterprise"
+  description: v0.4.x License management and enterprise features
+  color: "c2e0c6"
+
+- name: "phase: 1.0-production"
+  description: v1.0.0 Production ready
+  color: "0e8a16"
+
+# ============================================================================
+# AWS-SPECIFIC LABELS - Cloud platform features
+# ============================================================================
+- name: "aws: batch"
+  description: AWS Batch job management
+  color: "ff9900"
+
+- name: "aws: ec2"
+  description: EC2 instance management
+  color: "ff9900"
+
+- name: "aws: ecr"
+  description: Elastic Container Registry
+  color: "ff9900"
+
+- name: "aws: s3"
+  description: S3 data storage and transfer
+  color: "ff9900"
+
+- name: "aws: efs"
+  description: Elastic File System
+  color: "ff9900"
+
+- name: "aws: fsx"
+  description: FSx for Lustre (HPC storage)
+  color: "ff9900"
+
+- name: "aws: vpc"
+  description: VPC networking and subnets
+  color: "ff9900"
+
+- name: "aws: parallelcluster"
+  description: AWS ParallelCluster for MPI workloads
+  color: "ff9900"
+
+- name: "aws: spot"
+  description: Spot instance support
+  color: "ff9900"
+
+- name: "aws: iam"
+  description: IAM roles and permissions
+  color: "ff9900"
+
+- name: "aws: gpu"
+  description: GPU instance types and CUDA
+  color: "ff9900"
+
+# ============================================================================
+# ARCHITECTURE LABELS - Processor architectures
+# ============================================================================
+- name: "arch: graviton"
+  description: ARM Graviton (c7g, c8g)
+  color: "006b75"
+
+- name: "arch: amd"
+  description: AMD EPYC (c6a, c7a, c8a)
+  color: "006b75"
+
+- name: "arch: intel"
+  description: Intel (c6i, c7i, c8i)
+  color: "006b75"
+
+- name: "arch: multi-arch"
+  description: Multi-architecture support
+  color: "006b75"

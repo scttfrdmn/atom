@@ -1,0 +1,107 @@
+# HPC Base Image - AMD EPYC Genoa (Zen 4)
+# Architecture: x86-64-v4, AVX-512
+# Math Library: AMD AOCL (BLIS + libFLAME)
+# Version: 20251018
+
+ARG BASE_IMAGE=public.ecr.aws/amazonlinux/amazonlinux:2023
+FROM ${BASE_IMAGE}
+
+# Build metadata
+LABEL org.hpc.platform.version="1.0.0-dev"
+LABEL org.hpc.base.family="amd"
+LABEL org.hpc.base.generation="zen4"
+LABEL org.hpc.base.architecture="x86-64-v4"
+LABEL org.hpc.base.date="20251018"
+
+# Build arguments
+ARG SPACK_VERSION=v0.23.1
+ARG AOCL_VERSION=4.2
+ARG OPENMPI_VERSION=4.1.6
+ARG GCC_VERSION=11.5.0
+
+# Environment variables
+ENV SPACK_ROOT=/opt/spack \
+    AOCL_VERSION=${AOCL_VERSION} \
+    LC_ALL=C.UTF-8 \
+    LANG=C.UTF-8
+
+# Compiler optimization flags for Zen 4
+ENV CFLAGS="-march=znver4 -mavx512f -O3" \
+    CXXFLAGS="-march=znver4 -mavx512f -O3" \
+    FCFLAGS="-march=znver4 -mavx512f -O3 -fopenmp -ffast-math -funroll-loops" \
+    FFLAGS="-march=znver4 -mavx512f -O3 -fopenmp"
+
+# Install system packages
+RUN yum update -y && \
+    yum install -y \
+        gcc gcc-c++ gcc-gfortran \
+        make cmake \
+        git wget unzip tar xz \
+        bzip2 gzip \
+        perl python3 python3-pip \
+        bc m4 patch \
+        findutils which file \
+        openssl-devel libcurl-devel \
+        zlib-devel && \
+    yum clean all && \
+    rm -rf /var/cache/yum
+
+# Install Spack package manager
+RUN git clone --depth 1 --branch ${SPACK_VERSION} \
+        https://github.com/spack/spack.git ${SPACK_ROOT} && \
+    echo ". ${SPACK_ROOT}/share/spack/setup-env.sh" >> /etc/profile.d/spack.sh
+
+# Configure Spack
+RUN . ${SPACK_ROOT}/share/spack/setup-env.sh && \
+    spack compiler find && \
+    spack mirror add aws-cache https://binaries.spack.io/releases/${SPACK_VERSION} && \
+    spack buildcache keys --install --trust
+
+# Install AMD AOCL libraries
+RUN . ${SPACK_ROOT}/share/spack/setup-env.sh && \
+    spack install --no-checksum \
+        amdblis@${AOCL_VERSION}%gcc threads=openmp && \
+    spack install --no-checksum \
+        amdlibflame@${AOCL_VERSION}%gcc && \
+    spack gc -y
+
+# Install MPI
+RUN . ${SPACK_ROOT}/share/spack/setup-env.sh && \
+    spack install --no-checksum \
+        openmpi@${OPENMPI_VERSION}%gcc && \
+    spack gc -y
+
+# Install common HPC libraries
+RUN . ${SPACK_ROOT}/share/spack/setup-env.sh && \
+    spack install --no-checksum \
+        hdf5@1.14.3%gcc +fortran +hl +mpi && \
+    spack install --no-checksum \
+        netcdf-c@4.9.2%gcc +mpi && \
+    spack install --no-checksum \
+        netcdf-fortran@4.6.1%gcc && \
+    spack gc -y
+
+# Create Spack environment activation script
+RUN . ${SPACK_ROOT}/share/spack/setup-env.sh && \
+    spack load amdblis amdlibflame openmpi hdf5 netcdf-c netcdf-fortran && \
+    echo '#!/bin/bash' > /etc/profile.d/hpc-base.sh && \
+    echo '. /opt/spack/share/spack/setup-env.sh' >> /etc/profile.d/hpc-base.sh && \
+    echo 'spack load amdblis amdlibflame openmpi hdf5 netcdf-c netcdf-fortran' >> /etc/profile.d/hpc-base.sh && \
+    chmod +x /etc/profile.d/hpc-base.sh
+
+# Clean up
+RUN yum clean all && \
+    rm -rf /var/cache/yum && \
+    rm -rf ${SPACK_ROOT}/var/spack/cache
+
+# Build information
+RUN echo "HPC Base Image - AMD EPYC Genoa (Zen 4)" > /etc/hpc-base-version && \
+    echo "Platform: v1.0.0-dev" >> /etc/hpc-base-version && \
+    echo "Date: 20251018" >> /etc/hpc-base-version && \
+    echo "GCC: ${GCC_VERSION}" >> /etc/hpc-base-version && \
+    echo "AMD AOCL: ${AOCL_VERSION}" >> /etc/hpc-base-version && \
+    echo "OpenMPI: ${OPENMPI_VERSION}" >> /etc/hpc-base-version && \
+    echo "Compiler flags: ${FCFLAGS}" >> /etc/hpc-base-version
+
+# Default command
+CMD ["/bin/bash"]

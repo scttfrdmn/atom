@@ -1,0 +1,122 @@
+# Application Container - Uses HPC Base Image
+# This is a TEMPLATE - placeholders will be replaced by build system
+#
+# Placeholders:
+#   {{BASE_IMAGE}} - Base image reference (e.g., hpc-base-amd-zen4:20251018)
+#   {{VERSION}} - Application version (e.g., 0.1.0-alpha)
+#   {{ARCHITECTURE}} - Target architecture (e.g., zen4, sapphirerapids, neoverse-v2)
+#   {{VARIANT}} - Application variant (e.g., standard, advanced)
+#   {{APP_VERSION}} - Upstream application version (e.g., 1.0.0)
+#   {{BLAS_LAPACK_FLAGS}} - CMake flags for BLAS/LAPACK libraries
+
+ARG BASE_IMAGE={{BASE_IMAGE}}
+FROM ${BASE_IMAGE}
+
+# Application metadata
+LABEL org.hpc.app.name="your-app"
+LABEL org.hpc.app.variant="{{VARIANT}}"
+LABEL org.hpc.app.version="{{VERSION}}"
+LABEL org.hpc.app.architecture="{{ARCHITECTURE}}"
+LABEL org.hpc.upstream.version="{{APP_VERSION}}"
+
+# Build arguments
+ARG APP_VERSION={{APP_VERSION}}
+
+# Application-specific environment variables
+ENV APP_ROOT=/opt/your-app \
+    APP_DATA=/data/input \
+    APP_OUTPUT=/data/output \
+    APP_VERSION=${APP_VERSION}
+
+# Create directory structure
+RUN mkdir -p ${APP_ROOT}/{bin,lib,include,config} && \
+    mkdir -p ${APP_DATA} && \
+    mkdir -p ${APP_OUTPUT} && \
+    mkdir -p /opt/run-dir && \
+    mkdir -p /tmp/build
+
+# Download and build application
+WORKDIR /tmp/build
+
+# Option A: Download from Git
+RUN git clone --depth 1 --branch ${APP_VERSION} \
+        https://github.com/your-org/your-app.git && \
+    cd your-app && \
+    git submodule update --init --recursive
+
+# Option B: Download tarball
+# RUN wget https://your-app.org/releases/your-app-${APP_VERSION}.tar.gz && \
+#     tar xzf your-app-${APP_VERSION}.tar.gz && \
+#     cd your-app-${APP_VERSION}
+
+# Build application with architecture-specific optimizations
+# This assumes a CMake-based build - adjust for your build system
+WORKDIR /tmp/build/your-app
+
+RUN . /etc/profile.d/hpc-base.sh && \
+    mkdir -p build && cd build && \
+    cmake \
+        -DCMAKE_INSTALL_PREFIX=${APP_ROOT} \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_C_FLAGS="${CFLAGS}" \
+        -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
+        -DCMAKE_Fortran_FLAGS="${FCFLAGS}" \
+        {{BLAS_LAPACK_FLAGS}} \
+        .. && \
+    make -j$(nproc) VERBOSE=1 && \
+    make install
+
+# Alternative: Autotools build system
+# RUN . /etc/profile.d/hpc-base.sh && \
+#     ./configure \
+#         --prefix=${APP_ROOT} \
+#         CFLAGS="${CFLAGS}" \
+#         FCFLAGS="${FCFLAGS}" && \
+#     make -j$(nproc) && \
+#     make install
+
+# Alternative: Make-only build system
+# RUN . /etc/profile.d/hpc-base.sh && \
+#     make -j$(nproc) \
+#         PREFIX=${APP_ROOT} \
+#         CFLAGS="${CFLAGS}" \
+#         FCFLAGS="${FCFLAGS}" && \
+#     make install PREFIX=${APP_ROOT}
+
+# Copy and compile application scripts
+WORKDIR /app
+COPY scripts/entrypoint.sh /app/entrypoint.sh
+COPY scripts/s3-sync.sh /app/s3-sync.sh
+COPY scripts/config-generator.go /tmp/config-generator.go
+
+# Compile config-generator (Go)
+RUN . /etc/profile.d/hpc-base.sh && \
+    cd /tmp && \
+    go mod init config-generator && \
+    go get gopkg.in/yaml.v3 && \
+    go build -o /app/config-generator config-generator.go && \
+    rm -rf /tmp/config-generator.go /tmp/go.* && \
+    chmod +x /app/*.sh /app/config-generator
+
+# Copy configuration templates
+COPY configs/templates/ /app/templates/
+
+# Clean up build artifacts
+RUN rm -rf /tmp/build
+
+# Set working directory for runtime
+WORKDIR /opt/run-dir
+
+# Expose volume mount points
+VOLUME ["${APP_DATA}", "${APP_OUTPUT}"]
+
+# Health check - verify main executable exists
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD test -f ${APP_ROOT}/bin/your-app || exit 1
+
+# Set entrypoint
+# Sources HPC base environment and runs entrypoint script
+ENTRYPOINT ["/bin/bash", "-c", "source /etc/profile.d/hpc-base.sh && /app/entrypoint.sh \"$@\"", "--"]
+
+# Default command - show help
+CMD ["--help"]

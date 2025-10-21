@@ -1,0 +1,180 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement for AWS HPC Platform
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature! Please provide as much detail as possible to help us understand your use case.
+
+  - type: dropdown
+    id: persona
+    attributes:
+      label: Who is this feature for?
+      description: Select the primary user persona(s) who would benefit
+      multiple: true
+      options:
+        - Computational Scientist
+        - Research Lab (PI + Team)
+        - HPC Engineer
+        - Graduate Student
+        - IT Administrator
+        - DevOps Engineer
+        - Data Scientist
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which area would this affect?
+      description: Select all that apply
+      multiple: true
+      options:
+        - Platform core (pkg/)
+        - Applications
+        - Base images
+        - Infrastructure (CDK/Terraform)
+        - CLI (aws-hpc)
+        - Web dashboard
+        - Container system
+        - Job management
+        - Cost tracking
+        - License management
+    validations:
+      required: true
+
+  - type: dropdown
+    id: use_case
+    attributes:
+      label: Computational Use Case
+      description: What type of computational work would this support?
+      multiple: true
+      options:
+        - Atmospheric Modeling
+        - Molecular Dynamics
+        - Quantum Chemistry
+        - Machine Learning / AI
+        - Genomics / Bioinformatics
+        - Computational Fluid Dynamics
+        - Materials Science
+        - Parallel Computing (MPI)
+        - Cost Optimization
+        - Performance Benchmarking
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Describe the problem or pain point this feature would address
+      placeholder: |
+        As a [persona], I want to [goal] so that I can [benefit].
+
+        Currently, [describe the challenge or limitation]...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe how you envision this feature working
+      placeholder: |
+        Add a new command/flag/feature that...
+
+        Example usage:
+        \`\`\`bash
+        aws-hpc app deploy geos-chem --new-feature ...
+        \`\`\`
+
+        This would allow users to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Have you considered any alternative approaches or workarounds?
+      placeholder: |
+        Currently I work around this by...
+        OR
+        I haven't found a good workaround
+
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Workflow Impact
+      description: How would this feature change your typical workflow?
+      placeholder: |
+        **Current Workflow:**
+        1. [step]
+        2. [step]
+        3. [step]
+
+        **With This Feature:**
+        1. [simplified step]
+        2. [benefit]
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to your work?
+      options:
+        - Critical (blocking important work)
+        - High (significant impact on productivity)
+        - Medium (nice to have, noticeable improvement)
+        - Low (minor convenience)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: architecture
+    attributes:
+      label: Architecture Preference
+      description: Are there specific processor architectures this relates to?
+      multiple: true
+      options:
+        - All architectures
+        - ARM Graviton (c7g, c8g)
+        - AMD EPYC (c6a, c7a, c8a)
+        - Intel (c6i, c7i, c8i)
+        - GPU instances
+        - Not architecture-specific
+
+  - type: checkboxes
+    id: breaking_change
+    attributes:
+      label: Breaking Change
+      description: Would this feature require breaking changes to existing functionality?
+      options:
+        - label: This feature would require breaking changes
+        - label: I'm willing to migrate my existing setup if needed
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any other information, examples, or screenshots that would help explain this feature
+      placeholder: |
+        Related issues/PRs: #123
+        Example from other tools: [tool name]
+        Screenshots/mockups: [attach images]
+        Performance requirements: [details]
+        Cost considerations: [details]
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched existing issues to ensure this feature hasn't been requested before
+          required: true
+        - label: I have checked the roadmap to see if this is already planned
+          required: true

@@ -1,0 +1,55 @@
+/* Custom styles for AWS HPC Platform documentation */
+
+/* Enhance code blocks */
+.highlight {
+  border-radius: 4px;
+}
+
+/* Style admonitions */
+.admonition {
+  border-left: 4px solid;
+  border-radius: 4px;
+  margin: 1em 0;
+  padding: 0.6rem 1rem;
+}
+
+/* Customize persona cards if needed */
+.persona-card {
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+/* Architecture diagrams */
+.mermaid {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+/* Command line examples */
+.highlight .gp {
+  user-select: none;
+}
+
+/* Table styling */
+table {
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Status badges in tables */
+.status-active {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.status-planned {
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.status-roadmap {
+  color: #6b7280;
+  font-weight: 600;
+}
