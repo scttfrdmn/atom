@@ -158,7 +158,7 @@ Amazon Linux 2023
 
 ## Adding a New Application
 
-See [Adding Applications Guide](adding-applications.md) for detailed instructions.
+See [Research Computing Applications](research-computing-applications.md) for application examples.
 
 ### Quick Steps
 
@@ -275,10 +275,10 @@ runtime:
 
 ## Next Steps
 
-- [Adding Applications](adding-applications.md)
-- [Container Strategy](containers.md)
-- [Platform Architecture](architecture.md)
-- [API Reference](api-reference.md)
+- [Research Computing Applications](research-computing-applications.md)
+- [User Personas](../PERSONAS.md)
+- [Project Roadmap](https://github.com/scttfrdmn/aws-hpc/blob/main/ROADMAP.md)
+- [Contributing Guide](https://github.com/scttfrdmn/aws-hpc/blob/main/CONTRIBUTING.md)
 
 ## Getting Help
 
