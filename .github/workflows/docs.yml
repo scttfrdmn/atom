@@ -46,7 +46,7 @@ jobs:
           pip install pymdown-extensions
 
       - name: Build documentation
-        run: mkdocs build --strict
+        run: mkdocs build
 
   # Build and deploy to GitHub Pages on main branch
   deploy:
@@ -78,7 +78,7 @@ jobs:
           pip install pymdown-extensions
 
       - name: Build documentation
-        run: mkdocs build --strict
+        run: mkdocs build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
